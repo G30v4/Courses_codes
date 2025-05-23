@@ -1,0 +1,10 @@
+version: '3'
+services:
+  python:
+    build: 
+      context: ./.devcontainer/python
+      dockerfile: Dockerfile
+    volumes:
+      # Mount the root folder that contains .git
+      - .:/workspace:cached
+    command: sleep infinity
