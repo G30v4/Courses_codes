@@ -15,6 +15,7 @@ Examples and exercises of the courses taken
 - Docker & Docker Compose
 - Jupyter Notebooks
 - Apache AirFlow
+- Node.Js
 
 # 📚 Academy Platforms
 
@@ -31,3 +32,4 @@ Examples and exercises of the courses taken
 
 # 🔗 External Resources
 - [Using Images, Dockerfiles, and Docker Compose](https://containers.dev/guide/dockerfile)
+- [Working with Multiple Dev Containers in VS Code](https://www.youtube.com/watch?v=bVmczgfeR5Y)

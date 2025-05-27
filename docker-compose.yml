@@ -8,3 +8,12 @@ services:
       # Mount the root folder that contains .git
       - .:/workspace:cached
     command: sleep infinity
+
+  nodejs:
+    build: 
+      context: ./.devcontainer/nodejs
+      dockerfile: Dockerfile
+    volumes:
+      # Mount the root folder that contains .git
+      - .:/workspace:cached
+    command: sleep infinity
