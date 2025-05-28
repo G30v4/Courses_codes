@@ -1,1 +1,4 @@
 requests
+fabric3
+paramiko
+scp

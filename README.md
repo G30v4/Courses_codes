@@ -3,7 +3,7 @@
 Examples and exercises of the courses taken
 
 <p align='center'>
-  <img alt="GitHub Repo stars" src="https://img.shields.io/badge/Courses_Taken-5-orange" />
+  <img alt="GitHub Repo stars" src="https://img.shields.io/badge/Courses_Taken-6-orange" />
 </p>
 <br />
 
@@ -28,6 +28,7 @@ Examples and exercises of the courses taken
 - Código Facilito
     - [x] [Curso de Apache AirFlow](https://codigofacilito.com/cursos/apache-airflow)
     - [ ] [Curso Profesional de NodeJs](https://codigofacilito.com/cursos/nodejs-profesional)
+    - [x] [Curso de automatización de tareas con Python](https://codigofacilito.com/cursos/automatizacion-tareas-python)
 
 
 # 🔗 External Resources
