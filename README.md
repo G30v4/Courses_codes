@@ -3,13 +3,14 @@
 Examples and exercises of the courses taken
 
 <p align='center'>
-  <img alt="GitHub Repo stars" src="https://img.shields.io/badge/Courses_Taken-6-orange" />
+  <img alt="GitHub Repo stars" src="https://img.shields.io/badge/Courses_Taken-7-orange?style=for-the-badge" />
 </p>
 <br />
 
 # 📓 Programming Languages Learned
 - <img src="https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=python&logoColor=blue" />
 - <img src="https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E" />
+- ![Kotlin](https://img.shields.io/badge/kotlin-%237F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white)
 
 # 💻 Technologies Learned
 - Docker & Docker Compose
@@ -29,6 +30,9 @@ Examples and exercises of the courses taken
     - [x] [Curso de Apache AirFlow](https://codigofacilito.com/cursos/apache-airflow)
     - [ ] [Curso Profesional de NodeJs](https://codigofacilito.com/cursos/nodejs-profesional)
     - [x] [Curso de automatización de tareas con Python](https://codigofacilito.com/cursos/automatizacion-tareas-python)
+    - [x] [Curso de Anotaciones y type hints con Python](https://codigofacilito.com/videos/buenas-practicas-typehints)
+    - [ ] [Bootcamp de Java Profesional](https://codigofacilito.com/programas/java)
+    - [x] [Curso de Kotlin básico](https://www.codigofacilito.com/cursos/kotlin-basico)
 
 
 # 🔗 External Resources
