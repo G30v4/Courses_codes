@@ -63,3 +63,23 @@ Req:
 > Solution: [TaskManagerEj3.java](./src/TaskManagerEj3.java)
 
 > Execute: ```java -cp . TaskManagerEj3.java```
+
+
+## Project 4
+```java
+/*
+- Transformar un programa estructurado en un de POO
+- Aplicar los pilares de la POO
+
+Req:
+- Encapsulamiento de atrivutos privados, uso de getters/setters
+- Tarea hereda de Actividad
+- Aplicar polimorfirmo en el metodo ejecutar()
+- Crear constructor personalizado
+- Mantenr la logica y estructura del código
+*/
+```
+
+> Solution: [TaskManager.java](./src/ej4//TaskManager.java)
+
+> Execute: ```javac *.java && java TaskManager && rm -rf *.class```
