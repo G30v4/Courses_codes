@@ -34,7 +34,7 @@ Examples and exercises of the courses taken
     - [x] [Curso de Anotaciones y type hints con Python](https://codigofacilito.com/videos/buenas-practicas-typehints) - [🔢 Exercises performed](./CODIGOFACILITO/anotaciones-type_hints-python/)
     - [ ] [Bootcamp de Java Profesional](https://codigofacilito.com/programas/java)
     - [x] [Curso de Kotlin básico](https://www.codigofacilito.com/cursos/kotlin-basico) - [🔢 Exercises performed](./CODIGOFACILITO/curso-kotlin-basico/)
-    - [ ] [Curso de Java Profesional v2](hhttps://www.codigofacilito.com/cursos/java-profesional) - [🔢 Exercises performed](./CODIGOFACILITO/curso-java-profesional-2/)
+    - [x] [Curso de Java Profesional v2](hhttps://www.codigofacilito.com/cursos/java-profesional) - [🔢 Exercises performed](./CODIGOFACILITO/curso-java-profesional-2/)
 
 
 # 🔗 External Resources

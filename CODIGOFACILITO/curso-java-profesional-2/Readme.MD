@@ -100,3 +100,22 @@ Req:
 > Solution: [TaskManager.java](./src/ej5/TaskManager.java)
 
 > Execute: ```javac *.java && java TaskManager && rm -rf *.class```
+
+
+## Project 6
+```java
+/*
+- Mejoras modernas con tipos de datos inferidos
+- Uso de lambda para listarr tareas
+- COdigo limpio aplicando buenas practicas y metodos reutilizables
+
+Req:
+- Usar var para tipos inferidos
+- Hacer uso de .forEach() con lambdas
+- Añadir comentarios
+*/
+```
+
+> Solution: [TaskManager.java](./src/ej6/TaskManager.java)
+
+> Execute: ```javac *.java && java TaskManagerAdvance && rm -rf *.class```
