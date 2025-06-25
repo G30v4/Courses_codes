@@ -72,7 +72,7 @@ Req:
 - Aplicar los pilares de la POO
 
 Req:
-- Encapsulamiento de atrivutos privados, uso de getters/setters
+- Encapsulamiento de atributos privados, uso de getters/setters
 - Tarea hereda de Actividad
 - Aplicar polimorfirmo en el metodo ejecutar()
 - Crear constructor personalizado
@@ -80,6 +80,23 @@ Req:
 */
 ```
 
-> Solution: [TaskManager.java](./src/ej4//TaskManager.java)
+> Solution: [TaskManager.java](./src/ej4/TaskManager.java)
+
+> Execute: ```javac *.java && java TaskManager && rm -rf *.class```
+
+
+## Project 5
+```java
+/*
+- Gestion de tareas con ArrayList
+- Acceso por ID usando HashMap
+
+Req:
+- Uso de herencia, encapsulamiento y polimorfismo
+- Realizar operaciones con for-each, get(), remove()
+*/
+```
+
+> Solution: [TaskManager.java](./src/ej5/TaskManager.java)
 
 > Execute: ```javac *.java && java TaskManager && rm -rf *.class```
