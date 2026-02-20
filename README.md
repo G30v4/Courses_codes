@@ -38,7 +38,7 @@ Examples and exercises of the courses taken
     - [x] [Curso de Java Profesional v2](hhttps://www.codigofacilito.com/cursos/java-profesional) - [🔢 Exercises performed](./CODIGOFACILITO/curso-java-profesional-2/)
     - [ ] [Bootcamp de Python Avanzado](https://codigofacilito.com/programas/python-avanzado-g2)
 - **DataCamp**
-    - [ ] [Desarrollo de aplicaciones LLM con LangChain](https://app.datacamp.com/learn/courses/developing-llm-applications-with-langchain) 
+    - [x] [Desarrollo de aplicaciones LLM con LangChain](https://app.datacamp.com/learn/courses/developing-llm-applications-with-langchain) - [🔢 Exercises performed](./DATACAMP/developing-llm-applications-with-langchain/Exercises/)
 
 
 # 🔗 External Resources
