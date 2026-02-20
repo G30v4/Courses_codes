@@ -18,16 +18,17 @@ Examples and exercises of the courses taken
 - Jupyter Notebooks
 - Apache AirFlow
 - Node.Js
+- LangChain
 
 # 📚 Academy Platforms
 
-- Coursera
+- **Coursera**
     - [ ] [UPC - Introducción a la Programacion](https://www.coursera.org/learn/aprendiendo-programar-python)
-- IBM
+- **IBM**
     - [ ] [Docker Essential](https://cognitiveclass.ai/courses/docker-essentials)
-- CISCO
+- **CISCO**
     - [x] [PyEssentials 1](https://www.netacad.com/es/courses/python-essentials-1) - [🔢 Exercises performed](./CISCO/PyEssentials1/)
-- Código Facilito
+- **Código Facilito**
     - [x] [Curso de Apache AirFlow](https://codigofacilito.com/cursos/apache-airflow) - [🔢 Exercises performed](./CODIGOFACILITO/curso-apache-airflow/)
     - [ ] [Curso Profesional de NodeJs](https://codigofacilito.com/cursos/nodejs-profesional) - [🔢 Exercises performed](./CODIGOFACILITO/curso-profesional-nodejs/)
     - [x] [Curso de automatización de tareas con Python](https://codigofacilito.com/cursos/automatizacion-tareas-python) - [🔢 Exercises performed](./CODIGOFACILITO/automatizacion-tareas-python/)
@@ -35,6 +36,9 @@ Examples and exercises of the courses taken
     - [ ] [Bootcamp de Java Profesional](https://codigofacilito.com/programas/java)
     - [x] [Curso de Kotlin básico](https://www.codigofacilito.com/cursos/kotlin-basico) - [🔢 Exercises performed](./CODIGOFACILITO/curso-kotlin-basico/)
     - [x] [Curso de Java Profesional v2](hhttps://www.codigofacilito.com/cursos/java-profesional) - [🔢 Exercises performed](./CODIGOFACILITO/curso-java-profesional-2/)
+    - [ ] [Bootcamp de Python Avanzado](https://codigofacilito.com/programas/python-avanzado-g2)
+- **DataCamp**
+    - [ ] [Desarrollo de aplicaciones LLM con LangChain](https://app.datacamp.com/learn/courses/developing-llm-applications-with-langchain) 
 
 
 # 🔗 External Resources
