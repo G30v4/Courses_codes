@@ -27,19 +27,19 @@ Examples and exercises of the courses taken
 - **IBM**
     - [ ] [Docker Essential](https://cognitiveclass.ai/courses/docker-essentials)
 - **CISCO**
-    - [x] [PyEssentials 1](https://www.netacad.com/es/courses/python-essentials-1) - [🔢 Exercises performed](./CISCO/PyEssentials1/)
+    - [x] [PyEssentials 1](https://www.netacad.com/es/courses/python-essentials-1) - [🏋️‍♂️ Exercises performed](./CISCO/PyEssentials1/)
 - **Código Facilito**
-    - [x] [Curso de Apache AirFlow](https://codigofacilito.com/cursos/apache-airflow) - [🔢 Exercises performed](./CODIGOFACILITO/curso-apache-airflow/)
-    - [ ] [Curso Profesional de NodeJs](https://codigofacilito.com/cursos/nodejs-profesional) - [🔢 Exercises performed](./CODIGOFACILITO/curso-profesional-nodejs/)
-    - [x] [Curso de automatización de tareas con Python](https://codigofacilito.com/cursos/automatizacion-tareas-python) - [🔢 Exercises performed](./CODIGOFACILITO/automatizacion-tareas-python/)
-    - [x] [Curso de Anotaciones y type hints con Python](https://codigofacilito.com/videos/buenas-practicas-typehints) - [🔢 Exercises performed](./CODIGOFACILITO/anotaciones-type_hints-python/)
+    - [x] [Curso de Apache AirFlow](https://codigofacilito.com/cursos/apache-airflow) - [🏋️‍♂️ Exercises performed](./CODIGOFACILITO/curso-apache-airflow/)
+    - [ ] [Curso Profesional de NodeJs](https://codigofacilito.com/cursos/nodejs-profesional) - [🏋️‍♂️ Exercises performed](./CODIGOFACILITO/curso-profesional-nodejs/)
+    - [x] [Curso de automatización de tareas con Python](https://codigofacilito.com/cursos/automatizacion-tareas-python) - [🏋️‍♂️ Exercises performed](./CODIGOFACILITO/automatizacion-tareas-python/)
+    - [x] [Curso de Anotaciones y type hints con Python](https://codigofacilito.com/videos/buenas-practicas-typehints) - [🏋️‍♂️ Exercises performed](./CODIGOFACILITO/anotaciones-type_hints-python/)
     - [ ] [Bootcamp de Java Profesional](https://codigofacilito.com/programas/java)
-    - [x] [Curso de Kotlin básico](https://www.codigofacilito.com/cursos/kotlin-basico) - [🔢 Exercises performed](./CODIGOFACILITO/curso-kotlin-basico/)
-    - [x] [Curso de Java Profesional v2](hhttps://www.codigofacilito.com/cursos/java-profesional) - [🔢 Exercises performed](./CODIGOFACILITO/curso-java-profesional-2/)
+    - [x] [Curso de Kotlin básico](https://www.codigofacilito.com/cursos/kotlin-basico) - [🏋️‍♂️ Exercises performed](./CODIGOFACILITO/curso-kotlin-basico/)
+    - [x] [Curso de Java Profesional v2](hhttps://www.codigofacilito.com/cursos/java-profesional) - [🏋️‍♂️ Exercises performed](./CODIGOFACILITO/curso-java-profesional-2/)
     - [ ] [Bootcamp de Python Avanzado](https://codigofacilito.com/programas/python-avanzado-g2)
 - **DataCamp**
-    - [x] [Introducción a Python](https://campus.datacamp.com/es/courses/intro-to-python-for-data-science)
-    - [x] [Desarrollo de aplicaciones LLM con LangChain](https://app.datacamp.com/learn/courses/developing-llm-applications-with-langchain) - [🔢 Exercises performed](./DATACAMP/developing-llm-applications-with-langchain/Exercises/)    
+    - [x] [Introducción a Python](https://campus.datacamp.com/es/courses/intro-to-python-for-data-science) - [🏋️‍♂️ Exercises performed](./DATACAMP/intro-to-python-for-data-science/exercises)
+    - [x] [Desarrollo de aplicaciones LLM con LangChain](https://app.datacamp.com/learn/courses/developing-llm-applications-with-langchain) - [🏋️‍♂️ Exercises performed](./DATACAMP/developing-llm-applications-with-langchain/Exercises)
 
 
 # 🔗 External Resources
