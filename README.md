@@ -35,10 +35,11 @@ Examples and exercises of the courses taken
     - [x] [Curso de Anotaciones y type hints con Python](https://codigofacilito.com/videos/buenas-practicas-typehints) - [🏋️‍♂️ Exercises performed](./CODIGOFACILITO/anotaciones-type_hints-python/)
     - [ ] [Bootcamp de Java Profesional](https://codigofacilito.com/programas/java)
     - [x] [Curso de Kotlin básico](https://www.codigofacilito.com/cursos/kotlin-basico) - [🏋️‍♂️ Exercises performed](./CODIGOFACILITO/curso-kotlin-basico/)
-    - [x] [Curso de Java Profesional v2](hhttps://www.codigofacilito.com/cursos/java-profesional) - [🏋️‍♂️ Exercises performed](./CODIGOFACILITO/curso-java-profesional-2/)
+    - [x] [Curso de Java Profesional v2](https://www.codigofacilito.com/cursos/java-profesional) - [🏋️‍♂️ Exercises performed](./CODIGOFACILITO/curso-java-profesional-2/)
     - [ ] [Bootcamp de Python Avanzado](https://codigofacilito.com/programas/python-avanzado-g2)
 - **DataCamp**
     - [x] [Introducción a Python](https://campus.datacamp.com/es/courses/intro-to-python-for-data-science) - [🏋️‍♂️ Exercises performed](./DATACAMP/intro-to-python-for-data-science/exercises)
+    - [ ] [Introducción a la estadística en Python](https://app.datacamp.com/learn/courses/introduction-to-statistics-in-python)
     - [x] [Desarrollo de aplicaciones LLM con LangChain](https://app.datacamp.com/learn/courses/developing-llm-applications-with-langchain) - [🏋️‍♂️ Exercises performed](./DATACAMP/developing-llm-applications-with-langchain/Exercises)
 
 
