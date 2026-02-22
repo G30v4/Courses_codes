@@ -39,7 +39,7 @@ Examples and exercises of the courses taken
     - [ ] [Bootcamp de Python Avanzado](https://codigofacilito.com/programas/python-avanzado-g2)
 - **DataCamp**
     - [x] [Introducción a Python](https://campus.datacamp.com/es/courses/intro-to-python-for-data-science) - [🏋️‍♂️ Exercises performed](./DATACAMP/intro-to-python-for-data-science/exercises)
-    - [ ] [Introducción a la estadística en Python](https://app.datacamp.com/learn/courses/introduction-to-statistics-in-python)
+    - [x] [Introducción a la estadística en Python](https://app.datacamp.com/learn/courses/introduction-to-statistics-in-python) - [🏋️‍♂️ Exercises performed](./DATACAMP/introduction-to-statistics-in-python/exercises)
     - [x] [Desarrollo de aplicaciones LLM con LangChain](https://app.datacamp.com/learn/courses/developing-llm-applications-with-langchain) - [🏋️‍♂️ Exercises performed](./DATACAMP/developing-llm-applications-with-langchain/Exercises)
 
 
