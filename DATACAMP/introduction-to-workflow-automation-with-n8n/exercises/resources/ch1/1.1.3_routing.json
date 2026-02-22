@@ -1,0 +1,168 @@
+{
+  "name": "1.1.3_routing",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -96,
+        48
+      ],
+      "id": "c6d3e25e-fe0b-4605-85ee-9c3ab5c78be9",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "content": "## Trigger\nThe trigger causes the workflow to start. You need one whenever you want to run a workflow.",
+        "height": 432,
+        "width": 432,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -256,
+        -112
+      ],
+      "id": "69cb8ea6-c18a-45c9-8c6a-3393d4eab44f",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Flow logic (Actions)\nNodes that process data after the trigger—e.g., Edit Fields (Set), If/Switch, Merge.",
+        "height": 432,
+        "width": 720,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        192,
+        -112
+      ],
+      "id": "36d90ee9-e26b-4598-a4f1-aaa7ce77a4af",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## About the workflow\nThis workflow needs to be triggered manually. This is because of the type of trigger node that we have, called a Manual Trigger, or \"Trigger Manually\" node as it appears on the n8n User Interface.\nThis workflow filters a message into URGENT or NOT URGENT with an IF statement, and then sets a respective value into \"status\" field.",
+        "height": 144,
+        "width": 1168,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -256,
+        -272
+      ],
+      "id": "50b446cf-488d-415c-81df-054c3dce0eba",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7c3df577-81fb-4432-9358-6a0276a713a1",
+              "name": "=message",
+              "value": "Payment error on checkout",
+              "type": "string"
+            },
+            {
+              "id": "db9b98f6-7384-4535-9de4-1e4c91391f1b",
+              "name": "status",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        288,
+        48
+      ],
+      "id": "767f1346-f157-4ae5-9e53-65cfb4da8a65",
+      "name": "Set Fields"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "bc8e7fc4-9092-4de7-b486-1ae83c2fa65b",
+              "leftValue": "={{ $json.message }}",
+              "rightValue": "error",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        544,
+        48
+      ],
+      "id": "8faf3f45-f54b-482a-a539-a6f06f3a9a3e",
+      "name": "If"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Set Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Fields": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [],
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "1ec2b995-4f47-461d-8fdc-00e577750bf1",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "10f93b27896f059493cdb00e6aa575221b54f9b5615895f77ed780b471eb1f73"
+  },
+  "id": "v5j5aB47GINP0i6S",
+  "tags": []
+}
