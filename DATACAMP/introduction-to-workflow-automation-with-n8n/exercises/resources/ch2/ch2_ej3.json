@@ -1,0 +1,89 @@
+{
+  "name": "My workflow 341",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Contact Us",
+        "formDescription": "Please enter your name and email",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Name",
+              "placeholder": "e.g. alice",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Email",
+              "fieldType": "email",
+              "placeholder": "e.g. alice@example.com",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.3,
+      "position": [
+        -448,
+        0
+      ],
+      "id": "90524f13-b29e-40fc-8a6e-c6b24f3f5188",
+      "name": "Contact Us",
+      "webhookId": "abff1d6a-8045-4736-8c6e-5d55abca200e"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c47f3147-d798-481b-9509-012a6d71ebaf",
+              "name": "name_clean",
+              "value": "={{ $json.Name.toLowerCase() }}",
+              "type": "string"
+            },
+            {
+              "id": "9d56ea87-db17-4d28-907d-78f1108db370",
+              "name": "email_clean",
+              "value": "={{ $json.Email.toLowerCase() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -240,
+        0
+      ],
+      "id": "f873650b-fe79-4f72-81c9-7891031eed52",
+      "name": "Edit Fields"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Contact Us": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "83c20420-8744-48ce-9f51-3e8524ac4045",
+  "meta": {
+    "instanceId": "9dbe6e9adaa7644a782c9475adca697617306074a3b354c01045885272a5c8fe"
+  },
+  "id": "vpAXlUEYMhDoEl8J",
+  "tags": []
+}

@@ -1,0 +1,122 @@
+{
+  "name": "2.4.3a_customer_errors",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "1c453497-e159-4325-b403-c23c35458546",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  { json: { project: \"Website Redesign\", budget: 5000 } },     // valid\n  { json: { project: \"Mobile App\", budget: -200 } },           // invalid: negative\n  { json: { project: \"Marketing Campaign\", budget: 10000 } },  // valid\n  { json: { project: \"Conference Event\", budget: 0 } },        // valid edge case\n  { json: { project: \"Research Study\", budget: null } },       // invalid: missing\n  { json: { project: \"AI Prototype\", budget: -50 } }           // invalid: negative\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        240,
+        0
+      ],
+      "id": "fadf0506-fe85-42e7-a21c-e37a22435319",
+      "name": "Generate Customer Records"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "70554edc-0739-42d7-8b97-033fe6ee4099",
+              "leftValue": "={{ $json.budget }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "lt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        448,
+        0
+      ],
+      "id": "07411e70-dafe-4076-b709-7298d66cf163",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "errorMessage": "Invalid record - budget doesn't meet criteria"
+      },
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        656,
+        96
+      ],
+      "id": "480146ed-1e0c-4516-aaf3-5fa90f219da0",
+      "name": "Stop and Error"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Generate Customer Records",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Customer Records": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Stop and Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "d493924c-1d49-462c-9363-05a4707d9597",
+  "meta": {
+    "instanceId": "9dbe6e9adaa7644a782c9475adca697617306074a3b354c01045885272a5c8fe"
+  },
+  "id": "9Za3RgyS7g3vzSK6",
+  "tags": []
+}

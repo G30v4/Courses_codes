@@ -1,0 +1,58 @@
+{
+  "name": "2.4.3a_customer_errors",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "c837413b-bf95-423a-b567-afb2171cfb86",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  { json: { project: \"Website Redesign\", budget: 5000 } },     // valid\n  { json: { project: \"Mobile App\", budget: -200 } },           // invalid: negative\n  { json: { project: \"Marketing Campaign\", budget: 10000 } },  // valid\n  { json: { project: \"Conference Event\", budget: 0 } },        // valid edge case\n  { json: { project: \"Research Study\", budget: null } },       // invalid: missing\n  { json: { project: \"AI Prototype\", budget: -50 } }           // invalid: negative\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        448,
+        0
+      ],
+      "id": "06cc3bef-9453-4909-80ee-94983088480d",
+      "name": "Generate Customer Records"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Generate Customer Records",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Customer Records": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "27610e0c-affe-4f63-b197-04abe21e752e",
+  "meta": {
+    "instanceId": "c4d372043d010e719ebb60416a9c7977bfdb995426790e77e40dddc5ab27a597"
+  },
+  "id": "OscJqXJlqgb3DCKw",
+  "tags": []
+}

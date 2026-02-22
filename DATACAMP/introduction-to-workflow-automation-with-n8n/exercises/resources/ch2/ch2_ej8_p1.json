@@ -1,0 +1,101 @@
+{
+  "name": "Error Logger - Acme Events",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        -752,
+        -48
+      ],
+      "id": "6ddec4aa-94a2-497c-b4be-f3c13290f75d",
+      "name": "Error Trigger"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1cbe7aff-3553-431f-9948-379812f98622",
+              "name": "Workflow Name",
+              "value": "={{ $json.workflow.name }}",
+              "type": "string"
+            },
+            {
+              "id": "4ba03a76-5ed3-401b-8068-8434c108f746",
+              "name": "Execution URL",
+              "value": "={{ $json.execution.url }}",
+              "type": "string"
+            },
+            {
+              "id": "69a72dee-a142-4eaa-851f-238fd088083d",
+              "name": "Error Message",
+              "value": "={{ $json.execution.error.message }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -544,
+        -48
+      ],
+      "id": "8835a9fa-4ebc-4518-89d5-b5d62c7981ba",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "operation": "html",
+        "binaryPropertyName": "={{ $json['Workflow Name'] }}\n{{ $json['Execution URL'] }}\n{{ $json['Error Message'] }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        -336,
+        -48
+      ],
+      "id": "c4ae746d-d1e0-465e-97a5-085901d7edae",
+      "name": "Convert to File"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "bd2928b4-bef3-49e5-b2c2-c9ddd01ade09",
+  "meta": {
+    "instanceId": "9dbe6e9adaa7644a782c9475adca697617306074a3b354c01045885272a5c8fe"
+  },
+  "id": "BMKiorjG0AvFDQUA",
+  "tags": []
+}

@@ -1,0 +1,81 @@
+{
+  "name": "2.2.4a_merging",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "ac122b5f-5f02-4fff-92bd-7c164a5ffe42",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  {\n    json: {\n      userId: 101,\n      name: \"Alice\",\n      email: \"alice@example.com\"\n    }\n  },\n  {\n    json: {\n      userId: 102,\n      name: \"Bob\",\n      email: \"bob@example.com\"\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        240,
+        -128
+      ],
+      "id": "edb99c0b-0270-494d-87fc-a8e1100c6ade",
+      "name": "Create Two User Records"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  {\n    json: {\n      userId: 101,\n      payment_amount: 49.99\n    }\n  },\n  {\n    json: {\n      userId: 102,\n      payment_amount: 0\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        240,
+        96
+      ],
+      "id": "83bb9c39-8061-414c-a5fd-fcbc239daa23",
+      "name": "Create Two Payment Records"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Create Two User Records",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Create Two Payment Records",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Two User Records": {
+      "main": [
+        []
+      ]
+    },
+    "Create Two Payment Records": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "346371ee-b356-408e-b195-853aa212b07c",
+  "meta": {
+    "instanceId": "f7d6c549fb0e69c3708564e5979e09fd4cdbb6b19822926e759b115eec7c215f"
+  },
+  "id": "O38r5TnsAC6vuoec",
+  "tags": []
+}

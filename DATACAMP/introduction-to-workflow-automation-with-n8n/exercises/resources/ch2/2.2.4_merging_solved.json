@@ -1,0 +1,108 @@
+{
+  "name": "2.2.4a_merging",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -240,
+        128
+      ],
+      "id": "beee2b6f-3d10-4ff3-937d-f0c4ca10a129",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  {\n    json: {\n      userId: 101,\n      name: \"Alice\",\n      email: \"alice@example.com\"\n    }\n  },\n  {\n    json: {\n      userId: 102,\n      name: \"Bob\",\n      email: \"bob@example.com\"\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "b03703a6-d77b-42ec-a250-babb576f6a59",
+      "name": "Create Two User Records"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  {\n    json: {\n      userId: 101,\n      payment_amount: 49.99\n    }\n  },\n  {\n    json: {\n      userId: 102,\n      payment_amount: 0\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        0,
+        224
+      ],
+      "id": "dc9513bd-f4da-4a44-98bc-341ad47e7679",
+      "name": "Create Two Payment Records"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "fieldsToMatchString": "userId",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        208,
+        112
+      ],
+      "id": "e3c6194a-8509-4700-8d1f-58a94aee110e",
+      "name": "Merge"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Create Two User Records",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Create Two Payment Records",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Two Payment Records": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Create Two User Records": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "c5e693a3-f6ae-460e-afe2-a685b15c47cc",
+  "meta": {
+    "instanceId": "9dbe6e9adaa7644a782c9475adca697617306074a3b354c01045885272a5c8fe"
+  },
+  "id": "aqbGwZ2rjSS2SeBj",
+  "tags": []
+}

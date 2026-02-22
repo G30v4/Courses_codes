@@ -1,0 +1,243 @@
+{
+  "name": "2.3.4_validating",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -288,
+        192
+      ],
+      "id": "7ca941cb-bebf-450e-9681-5737dac23d09",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  { json: { name: \"Alice\", email: \"alice@example.com\", phone: \"+1234567890\" } },   // valid\n  { json: { name: \"Bob\", email: \"bobexample.com\", phone: \"+447436469574\" } },     // invalid email\n  { json: { name: \"Charlie\", email: \"charlie@example.org\", phone: \"447111223344\" } }, // invalid phone (missing +)\n  { json: { name: \"Diana\", email: \"diana@example.com\", phone: \"+14155552671\" } }, // valid\n  { json: { name: \"Eve\", email: \"eve123example.org\", phone: \"14155550000\" } },    // invalid email + phone\n  { json: { name: \"Frank\", email: \"frank@example.com\", phone: \"+49891234567\" } }, // valid\n  { json: { name: \"Grace\", email: \"grace@domain.com\", phone: \"987654321\" } },     // invalid phone\n  { json: { name: \"Hank\", email: \"hank@example.net\", phone: \"+61298765432\" } },   // valid\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        96,
+        192
+      ],
+      "id": "88c6b03c-1762-4a08-b04a-61bd39338e9c",
+      "name": "Generate User Records"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "96d109f9-82d1-46bf-a288-7b1ccaeb5e14",
+              "leftValue": "={{ $json.email }}",
+              "rightValue": "@",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        432,
+        192
+      ],
+      "id": "ed588bc8-777e-46c0-9f09-d531ecea919b",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "content": "## Do NOT Edit!\nYou may open and run this node, but do not change the code inside it.\n",
+        "height": 464,
+        "width": 304
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "111b86c6-fae7-4ee5-8585-fbf38fb3f606",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## Do NOT Edit!\nYou may open and run these nodes. These nodes have been set up for you already.\n",
+        "height": 464,
+        "width": 272
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        656,
+        0
+      ],
+      "id": "a64aa6de-91d2-46fb-916c-140d2d00ed16",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## Configure If Node\n",
+        "height": 464,
+        "width": 320,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        320,
+        0
+      ],
+      "id": "1c718d52-7f30-48b4-8c5b-8bbb72a52c49",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8184d20c-652e-4e85-af8e-4d64d0323a22",
+              "name": "name",
+              "value": "={{ $json.name }}",
+              "type": "string"
+            },
+            {
+              "id": "5b3b4db1-da63-4f52-9035-7bcd57c63475",
+              "name": "email",
+              "value": "={{ $json.email }}",
+              "type": "string"
+            },
+            {
+              "id": "d7fc6d7e-373b-4647-aa3f-d0123c9fba88",
+              "name": "phone",
+              "value": "={{ $json.phone }}",
+              "type": "string"
+            },
+            {
+              "id": "6aa79789-728a-45d9-b752-b2de693a4502",
+              "name": "status",
+              "value": "VALID",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        704,
+        128
+      ],
+      "id": "5f9410e6-5ddf-4689-b35e-dfc327886a82",
+      "name": "Valid Records"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8184d20c-652e-4e85-af8e-4d64d0323a22",
+              "name": "name",
+              "value": "={{ $json.name }}",
+              "type": "string"
+            },
+            {
+              "id": "5b3b4db1-da63-4f52-9035-7bcd57c63475",
+              "name": "email",
+              "value": "={{ $json.email }}",
+              "type": "string"
+            },
+            {
+              "id": "526b73d7-79f0-451d-8565-adeaa7c5a3f7",
+              "name": "phone",
+              "value": "={{ $json.phone }}",
+              "type": "string"
+            },
+            {
+              "id": "6aa79789-728a-45d9-b752-b2de693a4502",
+              "name": "status",
+              "value": "INVALID",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        704,
+        304
+      ],
+      "id": "5fcd99ca-01e6-4f5b-b1cc-a643b4b0b81c",
+      "name": "Invalid Records"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Generate User Records",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate User Records": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Valid Records",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Invalid Records",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "ae0beaaf-c283-46d7-ab24-7f79a70a78ed",
+  "meta": {
+    "instanceId": "9dbe6e9adaa7644a782c9475adca697617306074a3b354c01045885272a5c8fe"
+  },
+  "id": "N1gZzMpsCh5UMT2L",
+  "tags": []
+}
