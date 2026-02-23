@@ -1,0 +1,197 @@
+{
+  "name": "3.2.4_APIDecisions",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "5ced8175-91c9-4c34-b998-ce2994559b2d",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Acme Finance — mock “API-like” client accounts (one item per record)\nconst names = [\n  \"Alice Kim\",\"Bob Lee\",\"Carla Singh\",\"David Romero\",\"Ella Ortiz\",\n  \"Farah Chen\",\"Gabe Novak\",\"Hana Park\",\"Iris Patel\",\"Jamal Cruz\",\n  \"Kara Quinn\",\"Liam O'Connor\"\n];\n\n// Mix of budgets above/below 20,000 (USD)\nconst budgets = [12000, 22000, 45000, 18000, 20500, 9900, 37000, 21500, 60000, 19500, 30000, 17500];\n\nconst out = [];\n\nfor (let i = 0; i < names.length; i++) {\n  const hh = String(Math.floor(Math.random() * 24)).padStart(2, \"0\");\n  const mm = String(Math.floor(Math.random() * 60)).padStart(2, \"0\");\n  const ss = String(Math.floor(Math.random() * 60)).padStart(2, \"0\");\n\n  const clientId = 1001 + i;\n  const emailLocal = names[i].toLowerCase().replace(/[^a-z]/g, \"\");\n  const email = i % 4 === 0 ? null : `${emailLocal}${clientId}@clients.acmefinance.test`;\n\n  const budget = budgets[i];\n\n  out.push({\n    json: {\n      client_id: clientId,\n      client: { name: names[i], email },\n      budget,                      // number → easy to compare in If node\n      currency: \"USD\",\n      risk_tier: budget > 40000 ? \"high\" : budget > 20000 ? \"medium\" : \"low\",\n      last_review: `2025-08-26T${hh}:${mm}:${ss}Z`,\n      portfolio: {\n        accounts: 1 + (i % 3),\n        holdings: [`ETF-${i + 1}A`, `BOND-${i + 1}B`]\n      }\n    }\n  });\n}\n\nreturn out;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        0
+      ],
+      "id": "42a3893c-b8e5-4d73-9084-fa52e005f816",
+      "name": "Account Details"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "8e4fb837-7630-4caa-bc2f-945ef13c1311",
+              "leftValue": "={{ $json.budget }}",
+              "rightValue": 20000,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        432,
+        0
+      ],
+      "id": "740ae2c8-f2e7-4cdc-a2df-da1269fc2387",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "da5f3af5-7bb2-429f-8e7c-1429a68310f5",
+              "name": "Status",
+              "value": "High Priority Client",
+              "type": "string"
+            },
+            {
+              "id": "44484e21-5410-4730-97d0-c24395315c60",
+              "name": "Reason",
+              "value": "Budget above 20k",
+              "type": "string"
+            },
+            {
+              "id": "d222aa77-086f-4b54-b266-73d81ed965d6",
+              "name": "Name",
+              "value": "={{ $json.client.name }}",
+              "type": "string"
+            },
+            {
+              "id": "67570fb3-39e3-4e30-8ca3-c7fcbf437260",
+              "name": "Budget",
+              "value": "={{ $json.budget }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        640,
+        -96
+      ],
+      "id": "8907e5e3-1a57-4dc7-a27d-931220e56f1e",
+      "name": "High Priority"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "19e02d79-a5d1-4bc1-af2d-98da106d7036",
+              "name": "Status",
+              "value": "Standard Client",
+              "type": "string"
+            },
+            {
+              "id": "b83b4f26-d2fa-45c8-b6c2-505fd453c8c1",
+              "name": "Reason",
+              "value": "Budget below 20k",
+              "type": "string"
+            },
+            {
+              "id": "b4a8b1ef-4882-46a5-a9f2-7a5f8660de12",
+              "name": "Name",
+              "value": "={{ $json.client.name }}",
+              "type": "string"
+            },
+            {
+              "id": "b6c5d76f-7d52-4ed4-a294-3a3d43a20f0a",
+              "name": "Budget",
+              "value": "={{ $json.budget }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        640,
+        96
+      ],
+      "id": "a540d72c-8dce-493a-970d-53695bd29897",
+      "name": "Standard Priority"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Account Details",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Account Details": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "High Priority",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Standard Priority",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "d1184430-137d-459f-97bf-4397d9ce9718",
+  "meta": {
+    "instanceId": "9dbe6e9adaa7644a782c9475adca697617306074a3b354c01045885272a5c8fe"
+  },
+  "id": "G6BPO9Gsrh9lm6Qv",
+  "tags": []
+}

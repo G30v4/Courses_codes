@@ -1,0 +1,190 @@
+{
+  "name": "3.1.4_webhook_filtering",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        352,
+        272
+      ],
+      "id": "3404a5e1-6908-4c5f-9993-5f20642bea59",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "853e5084-0ba8-436a-b18f-4b82601ec2c3",
+              "name": "eventType",
+              "value": "purchase",
+              "type": "string"
+            },
+            {
+              "id": "d1c83bde-8806-4deb-8e4c-853a6e96c1bf",
+              "name": "user",
+              "value": "maria",
+              "type": "string"
+            },
+            {
+              "id": "3d2999f9-22d7-49f5-a55d-1499ac09fec1",
+              "name": "timestamp",
+              "value": "={{ $now }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        528,
+        272
+      ],
+      "id": "e168b5a4-6345-4770-96ad-36e4519ede27",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "support-ticket",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        352,
+        -16
+      ],
+      "id": "ef74a4d0-2cf4-445e-a115-0a897f9c7681",
+      "name": "Webhook",
+      "webhookId": "43d5e4b2-c3c0-40ff-b349-465267452743"
+    },
+    {
+      "parameters": {
+        "content": "## A- Webhook Reciever\nThis allows us to recieve messages from an HTTP Request to the node.",
+        "height": 240,
+        "width": 640,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        288,
+        -112
+      ],
+      "id": "a62f170c-bd6a-47cd-8692-540f5d1bbbb0",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## B- Webhook Sender\nThis allows us to set a Field and send the data of that Field onto our webhook endpoint (Workflow A).",
+        "height": 288,
+        "width": 640,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        288,
+        160
+      ],
+      "id": "3b401bfd-e310-4579-b14b-ca052b577dd9",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:5678/webhook/support-ticket",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "event_type",
+              "value": "={{ $json.eventType }}"
+            },
+            {
+              "name": "user",
+              "value": "={{ $json.user }}"
+            },
+            {
+              "name": "=timestamp_ISO_format",
+              "value": "={{ $json.timestamp }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        720,
+        272
+      ],
+      "id": "44a8ddef-2d10-476f-8afa-02785aef585d",
+      "name": "HTTP Request"
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "accept": "application/json,text/html,application/xhtml+xml,application/xml,text/*;q=0.9, image/*;q=0.8, */*;q=0.7",
+            "user-agent": "axios/1.8.3",
+            "accept-encoding": "gzip, compress, deflate, br",
+            "host": "localhost:5678",
+            "connection": "close",
+            "content-length": "0"
+          },
+          "params": {},
+          "query": {
+            "event_type": "purchase",
+            "user": "maria",
+            "timestamp_ISO_format": "2025-11-25T06:03:38.656-05:00"
+          },
+          "body": {},
+          "webhookUrl": "http://localhost:5678/webhook/support-ticket",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "39e1f9d9-d693-431e-938a-d962cb1a2306",
+  "meta": {
+    "instanceId": "9dbe6e9adaa7644a782c9475adca697617306074a3b354c01045885272a5c8fe"
+  },
+  "id": "lGrU9XZHuYMmBvBo",
+  "tags": []
+}

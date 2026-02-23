@@ -1,0 +1,528 @@
+{
+  "name": "3.3.5_start",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        368
+      ],
+      "id": "66f0a632-638f-448b-960e-89836dfc43f3",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Acme Logistics – incident sample generator (12 items)\n// Produces mostly-valid items plus some with missing required fields\n// so you can exercise your \"Check\" and \"Validate\" steps.\n\n// ---------- helpers ----------\nconst rand = (arr) => arr[Math.floor(Math.random() * arr.length)];\nconst bool = (p = 0.5) => Math.random() < p;\nconst int = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;\nconst isoOffsetMins = (mins) => new Date(Date.now() + mins * 60_000).toISOString();\nconst pad = (n, w=4) => String(n).padStart(w, '0');\n\n// ---------- lookup data ----------\nconst cities = ['Austin','Denver','Atlanta','Seattle','Phoenix','Boston','Miami','Portland'];\nconst streets = ['Elm St','Maple Ave','2nd St','Cedar Rd','Oak Blvd','Pine Way','Market St','Lakeview Dr'];\nconst carriers = ['UPS','FedEx','DHL','USPS'];\nconst channels = ['email','webform','phone','system'];\nconst firstNames = ['Avery','Jordan','Taylor','Morgan','Riley','Casey','Harper','Quinn'];\nconst lastNames  = ['Nguyen','Garcia','Patel','Miller','Davis','Kim','Lopez','Johnson'];\nconst products   = ['Laptop','Headphones','Groceries','Vitamins','Coffee Beans','Desk Lamp','Monitor','Camera'];\n\nconst hard = [\n  'Perishables spoiled; van refrigeration failed and ETA slipped 3 hours.',\n  'Box crushed on arrival; two units missing; customer very upset.',\n  'Address mismatch; courier left at wrong door; urgent retrieval needed.',\n  'Trailer breakdown overnight; shipment delayed, client escalation pending.',\n  'Courier lost one unit from the set; replacement required ASAP.'\n];\n\nconst soft = [\n  'Slight scuff on outer box; item works fine.',\n  'Driver 20 minutes late; customer accepted delivery.',\n  'Label smudged; reprint needed for return.',\n  'Customer requested weekday delivery; rescheduled.',\n  'Minor dent on outer box; contents verified OK.'\n];\n\n// ---------- generator ----------\nconst items = [];\nfor (let i = 1; i <= 12; i++) {\n  const severe = bool(0.45);\n  const name = `${rand(firstNames)} ${rand(lastNames)}`;\n  const city = rand(cities);\n  const street = `${int(100, 999)} ${rand(streets)}`;\n  const product = rand(products);\n  const qty = int(1, 4);\n\n  const record = {\n    order_id: `ORD-${pad(1000 + i)}`,\n    email: `ops+${i}@acme-logistics.example`,\n    customer_name: name,\n    phone: `+1-555-${int(100, 999)}-${int(1000, 9999)}`,\n    channel: rand(channels),\n\n    // shipping/address\n    address_line1: street,\n    city,\n    postal_code: String(int(10000, 99999)),\n    country: 'US',\n    carrier: rand(carriers),\n\n    // items\n    product,\n    sku: `SKU-${int(10000, 99999)}`,\n    quantity: qty,\n    value_usd: Number((int(1500, 45000) / 100).toFixed(2)), // $15–$450\n\n    fragile: bool(0.3),\n    temp_sensitive: bool(0.2),\n\n    // timing\n    created_at: isoOffsetMins(-int(0, 720)),     // sometime in last 12 hours\n    eta: isoOffsetMins(int(60, 60 * 24 * 3)),    // 1 hour–3 days in future\n\n    // incident text\n    message: severe ? rand(hard) : rand(soft),\n\n    // extra metadata you can normalize or drop later\n    tags: severe ? ['incident','customer_impact'] : ['incident'],\n  };\n\n  // Make every 6th item invalid to test your \"Check\" step:\n  // remove either email or message (but not both).\n  if (i % 6 === 0) {\n    if (bool(0.5)) delete record.email; else delete record.message;\n  }\n\n  items.push({ json: record });\n}\n\nreturn items;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -544,
+        368
+      ],
+      "id": "c9909d4c-7122-4fab-800e-5f7ee1eb4d47",
+      "name": "Code Node"
+    },
+    {
+      "parameters": {
+        "content": "## Trigger\n- This section generates incident report data",
+        "height": 560,
+        "width": 672,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -960,
+        128
+      ],
+      "id": "5d6fb322-d1b5-4520-8cb5-7e3e6c480480",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Decide\n- This section contains conditional logic",
+        "height": 560,
+        "width": 704,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -272,
+        128
+      ],
+      "id": "b867a6e4-25ee-454b-8702-60b46f0f1559",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "## OpenAI: User Prompt\nIncident Report:\nEmail: {{$json.email}}\nOrder ID: {{ $json.order_id }}\nCity: {{ $json.city }}\nMessage: {{ $json.incoming_message }}",
+        "height": 304,
+        "width": 400,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        288,
+        -208
+      ],
+      "id": "1ac31f45-c80a-4d7b-bdf3-82bfbcf2eb95",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## OpenAI: System Prompt\n\nYou are helping a logistics team quickly understand incident reports.  \nAlways reply in JSON with 3 parts:  \n{\n  \"summary\": \"short description of the problem (max 20 words)\",\n  \"urgency\": \"high or normal\",\n  \"action\": \"contact_customer, escalate_ops, or monitor\"\n}\nIf you are not sure, use urgency=\"normal\" and action=\"monitor\".\n",
+        "height": 304,
+        "width": 432,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        704,
+        -208
+      ],
+      "id": "0e86a2af-2b08-4de3-bbdd-d3c97928a617",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "id"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Incident Report:\nEmail: {{$json.email}}\nOrder ID: {{ $json.order_id }}\nCity: {{ $json.city }}\nMessage: {{ $json.incoming_message }}"
+            },
+            {
+              "content": "=You are helping a logistics team quickly understand incident reports.  \nAlways reply in JSON with 3 parts:  \n{\n  \"summary\": \"short description of the problem (max 20 words)\",\n  \"urgency\": \"high or normal\",\n  \"action\": \"contact_customer, escalate_ops, or monitor\"\n}\nIf you are not sure, use urgency=\"normal\" and action=\"monitor\".\n",
+              "role": "system"
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        544,
+        320
+      ],
+      "id": "871c15f8-0be6-4600-8c37-bb9506e63412",
+      "name": "Classify Incident Reports",
+      "credentials": {
+        "openAiApi": {
+          "id": "unxjrq790NJkSDnq",
+          "name": "OpenAi account 2"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "content": "## Decide (ENTER 4 NODES HERE)\n- This section contains decision logic and displays incident details.",
+        "height": 304,
+        "width": 1040
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        912,
+        128
+      ],
+      "id": "e7024780-c2ff-4561-9f17-3c18661a6f96",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "content": "## If Error Branch (ENTER 2 NODES HERE)\n- This section is run whenever one of the nodes gets an error once it is executed and displays error details.",
+        "height": 240,
+        "width": 1040
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        912,
+        448
+      ],
+      "id": "6751ac09-51c0-4b7b-9b75-eb862d844438",
+      "name": "Sticky Note8"
+    },
+    {
+      "parameters": {
+        "html": "<h2>🚨 Urgent Incident</h2>\n<p><b>Error Type:{{ $json.status }}</b> </p>\n<p><b>Source:{{ $json.source }}</b></p>\n<p><b>Error Message:{{ $json.error_message }} </b> </p>"
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        1104,
+        1232
+      ],
+      "id": "52bd58bc-a7e9-4c27-bf00-42975169ab8a",
+      "name": "Display Workflow Error"
+    },
+    {
+      "parameters": {
+        "html": "<h2>🚨 Incoming Incident</h2>\n<p><b>Incident Summary: {{ $json.Summary }}</b> </p>\n<p><b>Urgency: {{ $json.Urgency }}</b></p>\n<p><b>Recommended Action: {{ $json['Recommended Action'] }} </b> </p>"
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        1104,
+        1056
+      ],
+      "id": "f091cb39-8048-4df1-abf8-58127c703dfd",
+      "name": "Display Incident Details"
+    },
+    {
+      "parameters": {
+        "content": "## LLM Call\n- This section contains the API call to OpenAI's Chat Model.",
+        "height": 560,
+        "width": 448,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        448,
+        128
+      ],
+      "id": "661d8cc5-9371-4e13-8962-9b3afcdc3b5e",
+      "name": "Sticky Note9"
+    },
+    {
+      "parameters": {
+        "content": "## Drag Nodes into the Respective Area\n- For the \"IF\" Node; add the respective value in the node to ensure only the records with High Urgency get sent through the rest of the workflow.\n ",
+        "height": 656,
+        "width": 832,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1024,
+        752
+      ],
+      "id": "a8435949-c6a0-4143-a44a-75ef972efe1d",
+      "name": "Sticky Note7"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ac93107b-08a8-42f5-95f7-22cf3fa8afbb",
+              "name": "Summary",
+              "value": "={{ $json.message.content.summary }}",
+              "type": "string"
+            },
+            {
+              "id": "35401cdc-cd46-48fb-b983-d57f641eb251",
+              "name": "Urgency",
+              "value": "={{ $json.message.content.urgency }}",
+              "type": "string"
+            },
+            {
+              "id": "1dcea468-6bc9-4441-b236-9f5508e8b166",
+              "name": "Recommended Action",
+              "value": "={{ $json.message.content.action }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1632,
+        880
+      ],
+      "id": "bc9ccb84-c03c-44f9-b9e1-91bd047d8828",
+      "name": "Sets Incident Report Details"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "634cf8ab-a02a-4a0c-81d1-9621c5876367",
+              "name": "status",
+              "value": "llm_error",
+              "type": "string"
+            },
+            {
+              "id": "19342c36-48dd-4038-bad3-6ecad46bac5f",
+              "name": "source",
+              "value": "OpenAI",
+              "type": "string"
+            },
+            {
+              "id": "dd2868df-a68b-457f-9b47-ae951f3cd0bf",
+              "name": "error_message",
+              "value": "={{ $json.error }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1360,
+        1056
+      ],
+      "id": "c5edd3e4-e61d-4c63-b0ba-52670c68df01",
+      "name": "Record Workflow Error"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f3792006-d52d-4055-a0fa-27dbe68f821e",
+              "name": "incoming_message",
+              "value": "={{$json.message}}",
+              "type": "string"
+            },
+            {
+              "id": "a9b386a1-71a9-47be-adba-5c79cc1a3123",
+              "name": "email",
+              "value": "={{$json.email}}",
+              "type": "string"
+            },
+            {
+              "id": "c661db68-1f73-471b-87d8-7a5453599416",
+              "name": "order_id",
+              "value": "={{$json.order_id}}",
+              "type": "string"
+            },
+            {
+              "id": "f255dcc2-0a18-4551-8ad9-bf9683e2a276",
+              "name": "city",
+              "value": "={{$json.message}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        64,
+        240
+      ],
+      "id": "ba6ef8ba-1c2b-4e65-935b-bfc42669e205",
+      "name": "Data for LLM"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "fa8f9993-68a8-4b01-876b-c9d5c6175668",
+              "name": "invalid_input",
+              "value": "order Id and/or message is missing",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        64,
+        464
+      ],
+      "id": "993cde6a-1d79-44be-b8df-fb954a03c08d",
+      "name": "Drop with Reason"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1360,
+        880
+      ],
+      "id": "041101fa-6018-440f-ba14-cae7d186dced",
+      "name": "No Operation, do nothing (decide)"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        256,
+        464
+      ],
+      "id": "8f69cb95-a67b-4f33-8443-5bc0c1abce85",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "738545a3-edee-49dd-8746-437afa172a24",
+              "leftValue": "=",
+              "rightValue": "high",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1104,
+        880
+      ],
+      "id": "8cdb4043-46be-41ad-9518-075dfdf5f878",
+      "name": "OpenAI If"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "3f7fae9e-49e7-452a-aa77-9f6ce7cabab2",
+              "leftValue": "={{ $json.order_id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "4d1c7aeb-a698-417a-8f57-49219c9d0a47",
+              "leftValue": "={{ $json.message }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -160,
+        368
+      ],
+      "id": "f2cc1784-6651-41ae-a46e-c92a34a6daaa",
+      "name": "If"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Code Node",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code Node": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Data for LLM": {
+      "main": [
+        [
+          {
+            "node": "Classify Incident Reports",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Drop with Reason": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Data for LLM",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Drop with Reason",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "2a8b45ce-ce2c-4e2b-8f4e-1520551de769",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "9dbe6e9adaa7644a782c9475adca697617306074a3b354c01045885272a5c8fe"
+  },
+  "id": "sgKAHQoquQ28LeNY",
+  "tags": []
+}

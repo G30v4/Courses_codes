@@ -1,0 +1,146 @@
+{
+  "name": "3.1.3_webhook_events",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -496,
+        432
+      ],
+      "id": "4ec2867b-b0a8-4547-a99f-7112590bee23",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "853e5084-0ba8-436a-b18f-4b82601ec2c3",
+              "name": "message",
+              "value": "hello world!",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -320,
+        432
+      ],
+      "id": "d3008e57-6e37-4c41-bfa5-1a186b755419",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:5678/webhook/delete-this",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "message_to_webhook",
+              "value": "={{ $json.message }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -128,
+        432
+      ],
+      "id": "54df3d5d-69a8-4b3a-a58b-039e2d36166c",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "delete-this",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -496,
+        160
+      ],
+      "id": "61886a25-68e2-4cfb-8eb4-187f8d2d63e6",
+      "name": "Webhook",
+      "webhookId": "43d5e4b2-c3c0-40ff-b349-465267452743"
+    },
+    {
+      "parameters": {
+        "content": "## A- Webhook Reciever\nThis allows us to recieve messages from an HTTP Request to the node.",
+        "height": 240,
+        "width": 640,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -560,
+        64
+      ],
+      "id": "005d06e9-0054-4b7c-826f-77749880a948",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## B- Webhook Sender\nThis allows us to set a Field and send the data of that Field onto our webhook endpoint (Workflow A).",
+        "height": 288,
+        "width": 640,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -560,
+        320
+      ],
+      "id": "41c38275-1929-4789-8996-11a1da1ed92c",
+      "name": "Sticky Note1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "55f8fa5f-244a-4e32-b505-79ef21360810",
+  "meta": {
+    "instanceId": "9dbe6e9adaa7644a782c9475adca697617306074a3b354c01045885272a5c8fe"
+  },
+  "id": "zRuIrSaiwUjcG7cF",
+  "tags": []
+}

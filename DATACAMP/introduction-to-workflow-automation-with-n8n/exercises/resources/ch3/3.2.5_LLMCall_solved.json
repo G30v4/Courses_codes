@@ -1,0 +1,117 @@
+{
+  "name": "3.2.5_LLMCall",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -992,
+        48
+      ],
+      "id": "ad66160b-dbb4-40bc-9881-66e6a94dd3f1",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "jsCode": "const names = [\n  \"Alice Johnson\", \"Brian Smith\", \"Catherine Lee\", \"David Chen\",\n  \"Ella Martinez\", \"Frank Williams\", \"Grace Kim\", \"Henry Patel\",\n  \"Isabella Brown\", \"Jack Thompson\", \"Karen Lopez\", \"Leo Garcia\"\n];\n\nconst issues = [\n  \"Hi, my checkout failed twice last night. The card is valid and I tried different browsers. Can you confirm if there was an outage?\",\n  \"Hello support, I was charged twice for order #A1045. The bank shows two pending transactions. Please refund the duplicate.\",\n  \"Good morning, I can't reset my password. The reset link says it’s expired within minutes. Any workaround?\",\n  \"Hi team, our integration stopped syncing at 3pm. The logs mention 401 errors. Did our credentials expire?\",\n  \"Hello, I updated my billing address but the invoice still shows the old one. Can you regenerate it?\",\n  \"Support, the mobile app crashes on launch since the last update. I reinstalled it twice. Any fix timeline?\",\n  \"Hi there, I need to change the email on my account. The UI blocks it saying 'contact support'. What info do you need?\",\n  \"Greetings, I submitted a cancellation last week but I was billed again today. Please confirm the subscription status.\",\n  \"Hey, my teammate can’t access shared projects anymore. Permissions look correct on our side. Could this be a role issue?\",\n  \"Hello, where can I download previous invoices for the full year? The portal only shows the last three months.\",\n  \"Hi support, the webhook delivery is delayed by several minutes today. We’re processing purchases in real time. Any incident?\",\n  \"Good afternoon, I need a copy of our DPA and security questionnaire for procurement. Whom should I contact?\"\n];\n\nconst messages = [];\n\nfor (let i = 0; i < 12; i++) {\n  const name = names[i];\n  const first = name.split(\" \")[0].toLowerCase();\n  const last = name.split(\" \")[1].toLowerCase();\n  const email = `${first}.${last}@examplemail.com`;\n\n  messages.push({\n    json: {\n      ticket_id: 1000 + i,\n      from: email,\n      customer_name: name,\n      email_text: issues[i]\n    }\n  });\n}\n\nreturn messages;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -768,
+        48
+      ],
+      "id": "7d664490-e610-4977-85ff-ddc0d297a156",
+      "name": "Generate Messages"
+    },
+    {
+      "parameters": {
+        "content": "\nCopy the prompt below onto the System Prompt of the OpenAI Node:\n\nYou are Acme Support. Write a clear, friendly reply to the customer.\nUse this structure:\n- Short greeting (use no name if unknown)\n- One-sentence acknowledgement\n- 1–3 bullet points with next steps or info\n- Short closing and “— Acme Support”\nKeep it plain text. No code blocks. No quoting the original message.",
+        "height": 224,
+        "width": 560,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "6bece277-e1c2-481b-ad99-f8ea20d8d5f8",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "id"
+        },
+        "responses": {
+          "values": [
+            {
+              "content": "={{ $json.email_text }}"
+            },
+            {
+              "role": "system",
+              "content": "You are Acme Support. Write a clear, friendly reply to the customer.\nUse this structure:\n\n• Short greeting (use no name if unknown)\n• One-sentence acknowledgement\n• 1-3 bullet points with next steps or info\n• Short closing and \"- Acme Support\"\n\nKeep it plain text. No code blocks. No quoting the original message."
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2,
+      "position": [
+        -560,
+        48
+      ],
+      "id": "a44a9f8d-5705-408a-8f9b-ffdc690e9bf4",
+      "name": "Message a model",
+      "credentials": {
+        "openAiApi": {
+          "id": "Br0oVabhQsx1KAd3",
+          "name": "OpenAI account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Generate Messages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Messages": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "4e2f2cb3-4acd-4464-870a-73d1a98eb5e8",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "9dbe6e9adaa7644a782c9475adca697617306074a3b354c01045885272a5c8fe"
+  },
+  "id": "9U3J8HI4t8zU1kvM",
+  "tags": []
+}

@@ -1,0 +1,553 @@
+{
+  "name": "My workflow 46",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1232,
+        256
+      ],
+      "id": "54f68b45-0c88-4b3d-a417-37d7541795cc",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"classification\": \"High Value\",\n  \"justification\": \"The amount is 220, which exceeds the 200 threshold for high-value expenses. The description and note do not indicate anything suspicious, so it is not marked as such.\"\n}\n"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        -320,
+        432
+      ],
+      "id": "7478fd15-b23b-4889-b78c-23c71220011e",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "content": "## Display the Data \n- This section is responsible for creating a Table in HTML code in order to visually display the data on the screen for easier interpretation.",
+        "height": 352,
+        "width": 576,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        96
+      ],
+      "id": "b3f1278c-b43f-478a-a1cc-0b6624b1c8bc",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "html": "<html>\n  <head>\n    <meta charset=\"utf-8\">\n    <title>All Expense Results</title>\n    <style>\n      body { font-family: Arial, sans-serif; background: #f7f7f7; }\n      table { border-collapse: collapse; width: 90%; margin: 20px auto; }\n      th, td { border: 1px solid #ccc; padding: 8px 12px; text-align: left; }\n      th { background: #eee; }\n    </style>\n  </head>\n  <body>\n    <table>\n      <tr>\n        <th>Employee</th>\n        <th>Amount</th>\n        <th>Description</th>\n        <th>Action</th>\n      </tr>\n        {{ $json.htmlContent }}\n    </table>\n  </body>\n</html>\n"
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        1456,
+        256
+      ],
+      "id": "057a4248-c122-409d-99d9-ce65d9989a6d",
+      "name": "Generate Table with Rows"
+    },
+    {
+      "parameters": {
+        "numberInputs": 3
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        800,
+        240
+      ],
+      "id": "371c9721-f5d8-4f89-94a4-cc1dadd2aafb",
+      "name": "Merge Items Together"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = [\n  { employee: \"Alice\", amount: 120, description: \"Travel\", date: \"2025-09-10\", note: \"Urgent trip\" },\n  { employee: \"Bob\", amount: 80, description: \"Supplies\", date: \"2025-09-11\", note: \"Bulk office order\" },\n  { employee: \"Carol\", amount: 300, description: \"Conference\", date: \"2025-09-12\", note: \"Industry event\" },\n  { employee: \"Dave\", amount: 50, description: \"Lunch\", date: \"2025-09-13\", note: \"Client meeting\" },\n  { employee: \"Eve\", amount: 220, description: \"Hotel\", date: \"2025-09-14\", note: \"Annual retreat\" },\n  { employee: \"Alice\", amount: 180, description: \"Travel\", date: \"2025-09-15\", note: \"Second trip this month\" },\n  { employee: \"Bob\", amount: 70, description: \"Supplies\", date: \"2025-09-16\", note: \"Printer ink\" },\n  { employee: \"Carol\", amount: 320, description: \"Conference\", date: \"2025-09-17\", note: \"Panel speaking fee\" },\n  { employee: \"Dave\", amount: 60, description: \"Lunch\", date: \"2025-09-18\", note: \"Client lunch\" },\n  { employee: \"Bob\", amount: 65, description: \"Supplies\", date: \"2025-09-21\", note: \"Document folders\" }\n];\n\nreturn items.map(item => ({ json: item }));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -832,
+        256
+      ],
+      "id": "e0af2f95-cf61-4826-82b7-01c00f96d991",
+      "name": "Generate Financial Records"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -512,
+        432
+      ],
+      "id": "ca211189-ff5c-4cfe-ba9f-e1a4ea00d26c",
+      "name": "Open AI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "Br0oVabhQsx1KAd3",
+          "name": "OpenAI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Assuming 'items' is an array of n8n's input objects,\n// and each input object has a 'json' property containing your row data.\nconst tableData = items.map(item => item.json);\n\nfunction generateTableBodyHTML(tableData) {\n  let tbodyContent = '';\n  tableData.forEach(row => {\n    tbodyContent += `\n      <tr>\n        <td>${row.employee}</td>\n        <td>${row.description}</td>\n        <td>${row.date}</td>\n        <td>${row.action}</td>\n      </tr>`;\n  });\n  return tbodyContent;\n}\n\nconst generatedTbodyHtml = generateTableBodyHTML(tableData);\n\n// Return the HTML string for the next node\nreturn [{ json: { htmlContent: generatedTbodyHtml } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1232,
+        256
+      ],
+      "id": "2d837c9e-8e58-460f-b0be-0a16d931b8a0",
+      "name": "Create Rows from Previoius Data"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Employee: {{ $json.employee }}\nAmount: {{ $json.amount }}\nDescription: {{ $json.description }}\nDate: {{ $json.date }}\nNote: {{ $json.note }}\n\n",
+        "hasOutputParser": true,
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=Act as a finance data classification assistant. Your job is to review each incoming expense record and assign it an appropriate category: 'Normal', 'High Value', or 'Suspicious'. Mark the record as 'High Value' if the amount is over 200, or 'Suspicious' if the note or description contains indications of unusual or urgent business. Add a brief justification for your classification."
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        -496,
+        256
+      ],
+      "id": "1de10264-6843-46a7-ab92-d70936740b85",
+      "name": "Classify Expenses"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.output.classification }}",
+                    "rightValue": "=Normal",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "2e3da9de-6761-4e7d-8a75-22f8b3282c6c"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Is Normal"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "e239a64f-e613-4e7f-92cc-d51c421372d7",
+                    "leftValue": "={{ $json.output.classification }}",
+                    "rightValue": "High Value",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Is High Value"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "a0b225a3-94e8-4f49-a8c0-4f69e76e4bc3",
+                    "leftValue": "={{ $json.output.classification }}",
+                    "rightValue": "Suspicious",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Is Suspicious"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        64,
+        240
+      ],
+      "id": "c4bf82d7-8d3c-444e-a91d-df0715d3fd0d",
+      "name": "Classify by Expense Type"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e415ec9d-7b0a-4b61-9546-c476deed5b28",
+              "name": "employee",
+              "value": "={{ $('Generate Financial Records').item.json.employee }}",
+              "type": "string"
+            },
+            {
+              "id": "0ca36341-4287-4434-963a-27bbaaecff3d",
+              "name": "description",
+              "value": "={{ $('Generate Financial Records').item.json.description }}",
+              "type": "string"
+            },
+            {
+              "id": "092b5740-72ae-4751-92a7-b2a390a6f7ec",
+              "name": "date",
+              "value": "={{ $('Generate Financial Records').item.json.date }}",
+              "type": "string"
+            },
+            {
+              "id": "476f3181-2c74-4904-bf3f-9ce20b7b2f2d",
+              "name": "action",
+              "value": "Add Record into Database",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        432,
+        48
+      ],
+      "id": "e1dc7843-59aa-4131-86d9-6e16576922b8",
+      "name": "Set Normal Action"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e415ec9d-7b0a-4b61-9546-c476deed5b28",
+              "name": "employee",
+              "value": "={{ $('Generate Financial Records').item.json.employee }}",
+              "type": "string"
+            },
+            {
+              "id": "0ca36341-4287-4434-963a-27bbaaecff3d",
+              "name": "description",
+              "value": "={{ $('Generate Financial Records').item.json.description }}",
+              "type": "string"
+            },
+            {
+              "id": "092b5740-72ae-4751-92a7-b2a390a6f7ec",
+              "name": "date",
+              "value": "={{ $('Generate Financial Records').item.json.date }}",
+              "type": "string"
+            },
+            {
+              "id": "476f3181-2c74-4904-bf3f-9ce20b7b2f2d",
+              "name": "action",
+              "value": "Send to Analyst for Verification",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        432,
+        256
+      ],
+      "id": "1423bfac-083f-4c4c-bb20-a9c312ec91a7",
+      "name": "Set High Value Action"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e415ec9d-7b0a-4b61-9546-c476deed5b28",
+              "name": "employee",
+              "value": "={{ $('Generate Financial Records').item.json.employee }}",
+              "type": "string"
+            },
+            {
+              "id": "0ca36341-4287-4434-963a-27bbaaecff3d",
+              "name": "description",
+              "value": "={{ $('Generate Financial Records').item.json.description }}",
+              "type": "string"
+            },
+            {
+              "id": "092b5740-72ae-4751-92a7-b2a390a6f7ec",
+              "name": "date",
+              "value": "={{ $('Generate Financial Records').item.json.date }}",
+              "type": "string"
+            },
+            {
+              "id": "476f3181-2c74-4904-bf3f-9ce20b7b2f2d",
+              "name": "action",
+              "value": "Send Notification to Manager",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        432,
+        464
+      ],
+      "id": "9117b640-14ff-476f-9fcd-40d59c02e346",
+      "name": "Set Suspicious Action"
+    },
+    {
+      "parameters": {
+        "content": "# Trigger and Generating Records\nStarting flow",
+        "height": 336,
+        "width": 608
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1296,
+        144
+      ],
+      "id": "f0802129-e575-4ebf-a909-20347f56930c",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "# Classify Incoming Records \nModel Process",
+        "height": 512,
+        "width": 544,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -640,
+        96
+      ],
+      "id": "dcb96714-aec9-4233-b2c2-81e4ced8bae8",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "# Setting Action Values\nPreprocessing Results",
+        "height": 672,
+        "width": 992,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "f2bd9510-340a-40f2-a3b6-967850f7323e",
+      "name": "Sticky Note3"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Generate Financial Records",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Classify Expenses",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge Items Together": {
+      "main": [
+        [
+          {
+            "node": "Create Rows from Previoius Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Financial Records": {
+      "main": [
+        [
+          {
+            "node": "Classify Expenses",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Open AI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Classify Expenses",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Rows from Previoius Data": {
+      "main": [
+        [
+          {
+            "node": "Generate Table with Rows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Classify Expenses": {
+      "main": [
+        [
+          {
+            "node": "Classify by Expense Type",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Classify by Expense Type": {
+      "main": [
+        [
+          {
+            "node": "Set Normal Action",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Set High Value Action",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Set Suspicious Action",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Normal Action": {
+      "main": [
+        [
+          {
+            "node": "Merge Items Together",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set High Value Action": {
+      "main": [
+        [
+          {
+            "node": "Merge Items Together",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Set Suspicious Action": {
+      "main": [
+        [
+          {
+            "node": "Merge Items Together",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "1a5a1746-63d9-428f-bcf8-899caec94368",
+  "meta": {
+    "instanceId": "9dbe6e9adaa7644a782c9475adca697617306074a3b354c01045885272a5c8fe"
+  },
+  "id": "HZbGljWB17ZJxGzb",
+  "tags": []
+}

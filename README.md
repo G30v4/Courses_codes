@@ -41,8 +41,8 @@ Examples and exercises of the courses taken
 - **DataCamp**
     - [x] [Introducción a Python](https://campus.datacamp.com/es/courses/intro-to-python-for-data-science) - [🏋️‍♂️ Exercises performed](./DATACAMP/intro-to-python-for-data-science/exercises)
     - [x] [Introducción a la estadística en Python](https://app.datacamp.com/learn/courses/introduction-to-statistics-in-python) - [🏋️‍♂️ Exercises performed](./DATACAMP/introduction-to-statistics-in-python/exercises)
-    - [x] [Desarrollo de aplicaciones LLM con LangChain](https://app.datacamp.com/learn/courses/developing-llm-applications-with-langchain) - [🏋️‍♂️ Exercises performed](./DATACAMP/developing-llm-applications-with-langchain/Exercises)ç
-    - [ ] [Introducción a la automatización de flujos de trabajo con n8n](https://app.datacamp.com/learn/courses/introduction-to-workflow-automation-with-n8n)
+    - [x] [Desarrollo de aplicaciones LLM con LangChain](https://app.datacamp.com/learn/courses/developing-llm-applications-with-langchain) - [🏋️‍♂️ Exercises performed](./DATACAMP/developing-llm-applications-with-langchain/Exercises)
+    - [x] [Introducción a la automatización de flujos de trabajo con n8n](https://app.datacamp.com/learn/courses/introduction-to-workflow-automation-with-n8n) - [🏋️‍♂️ Exercises performed](./DATACAMP/introduction-to-workflow-automation-with-n8n/exercises/)
 
 
 # 🔗 External Resources

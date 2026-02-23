@@ -1,0 +1,58 @@
+{
+  "name": "3.2.4_APIDecisions",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "1ed69d73-0151-4de2-b120-a8db0fe5eaa3",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Acme Finance — mock “API-like” client accounts (one item per record)\nconst names = [\n  \"Alice Kim\",\"Bob Lee\",\"Carla Singh\",\"David Romero\",\"Ella Ortiz\",\n  \"Farah Chen\",\"Gabe Novak\",\"Hana Park\",\"Iris Patel\",\"Jamal Cruz\",\n  \"Kara Quinn\",\"Liam O'Connor\"\n];\n\n// Mix of budgets above/below 20,000 (USD)\nconst budgets = [12000, 22000, 45000, 18000, 20500, 9900, 37000, 21500, 60000, 19500, 30000, 17500];\n\nconst out = [];\n\nfor (let i = 0; i < names.length; i++) {\n  const hh = String(Math.floor(Math.random() * 24)).padStart(2, \"0\");\n  const mm = String(Math.floor(Math.random() * 60)).padStart(2, \"0\");\n  const ss = String(Math.floor(Math.random() * 60)).padStart(2, \"0\");\n\n  const clientId = 1001 + i;\n  const emailLocal = names[i].toLowerCase().replace(/[^a-z]/g, \"\");\n  const email = i % 4 === 0 ? null : `${emailLocal}${clientId}@clients.acmefinance.test`;\n\n  const budget = budgets[i];\n\n  out.push({\n    json: {\n      client_id: clientId,\n      client: { name: names[i], email },\n      budget,                      // number → easy to compare in If node\n      currency: \"USD\",\n      risk_tier: budget > 40000 ? \"high\" : budget > 20000 ? \"medium\" : \"low\",\n      last_review: `2025-08-26T${hh}:${mm}:${ss}Z`,\n      portfolio: {\n        accounts: 1 + (i % 3),\n        holdings: [`ETF-${i + 1}A`, `BOND-${i + 1}B`]\n      }\n    }\n  });\n}\n\nreturn out;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        220,
+        0
+      ],
+      "id": "a87256e9-ae89-4955-9fd3-eef192f0b7e0",
+      "name": "Account Details"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Account Details",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Account Details": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "73e13b9b-d654-4b46-9a79-8ee3004fddae",
+  "meta": {
+    "instanceId": "c4d372043d010e719ebb60416a9c7977bfdb995426790e77e40dddc5ab27a597"
+  },
+  "id": "C99pDUn32tVAzH6x",
+  "tags": []
+}

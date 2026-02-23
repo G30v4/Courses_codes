@@ -1,0 +1,219 @@
+{
+  "name": "3.3.3_start",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        160,
+        192
+      ],
+      "id": "948f31b6-58e2-415e-b34a-85540cf02b01",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Acme Logistics – incident sample generator (12 items)\n// Produces mostly-valid items plus some with missing required fields\n// so you can exercise your \"Check\" and \"Validate\" steps.\n\n// ---------- helpers ----------\nconst rand = (arr) => arr[Math.floor(Math.random() * arr.length)];\nconst bool = (p = 0.5) => Math.random() < p;\nconst int = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;\nconst isoOffsetMins = (mins) => new Date(Date.now() + mins * 60_000).toISOString();\nconst pad = (n, w = 4) => String(n).padStart(w, '0');\n\n// ---------- lookup data ----------\nconst cities = ['Austin','Denver','Atlanta','Seattle','Phoenix','Boston','Miami','Portland'];\nconst streets = ['Elm St','Maple Ave','2nd St','Cedar Rd','Oak Blvd','Pine Way','Market St','Lakeview Dr'];\nconst carriers = ['UPS','FedEx','DHL','USPS'];\nconst channels = ['email','webform','phone','system'];\nconst firstNames = ['Avery','Jordan','Taylor','Morgan','Riley','Casey','Harper','Quinn'];\nconst lastNames  = ['Nguyen','Garcia','Patel','Miller','Davis','Kim','Lopez','Johnson'];\nconst products   = ['Laptop','Headphones','Groceries','Vitamins','Coffee Beans','Desk Lamp','Monitor','Camera'];\n\nconst hard = [\n  'Perishables spoiled; van refrigeration failed and ETA slipped 3 hours.',\n  'Box crushed on arrival; two units missing; customer very upset.',\n  'Address mismatch; courier left at wrong door; urgent retrieval needed.',\n  'Trailer breakdown overnight; shipment delayed, client escalation pending.',\n  'Courier lost one unit from the set; replacement required ASAP.'\n];\n\nconst soft = [\n  'Slight scuff on outer box; item works fine.',\n  'Driver 20 minutes late; customer accepted delivery.',\n  'Label smudged; reprint needed for return.',\n  'Customer requested weekday delivery; rescheduled.',\n  'Minor dent on outer box; contents verified OK.'\n];\n\n// ---------- generator ----------\nconst items = [];\nfor (let i = 1; i <= 12; i++) {\n  const severe = bool(0.45);\n  const name = `${rand(firstNames)} ${rand(lastNames)}`;\n  const city = rand(cities);\n  const street = `${int(100, 999)} ${rand(streets)}`;\n  const product = rand(products);\n  const qty = int(1, 4);\n\n  const record = {\n    order_id: `ORD-${pad(1000 + i)}`,\n    email: `ops+${i}@acme-logistics.example`,\n    customer_name: name,\n    phone: `+1-555-${int(100, 999)}-${int(1000, 9999)}`,\n    channel: rand(channels),\n\n    // shipping/address\n    address_line1: street,\n    city,\n    postal_code: String(int(10000, 99999)),\n    country: 'US',\n    carrier: rand(carriers),\n\n    // items\n    product,\n    sku: `SKU-${int(10000, 99999)}`,\n    quantity: qty,\n    value_usd: Number((int(1500, 45000) / 100).toFixed(2)), // $15–$450\n\n    fragile: bool(0.3),\n    temp_sensitive: bool(0.2),\n\n    // timing\n    created_at: isoOffsetMins(-int(0, 720)),     // sometime in last 12 hours\n    eta: isoOffsetMins(int(60, 60 * 24 * 3)),    // 1 hour–3 days in future\n\n    // incident text\n    message: severe ? rand(hard) : rand(soft),\n\n    // extra metadata you can normalize or drop later\n    tags: severe ? ['incident','customer_impact'] : ['incident'],\n  };\n\n  items.push({ json: record });\n}\n\n// ---------- enforce exactly 2 records with blank message or order_id ----------\nconst invalidIndexes = new Set();\n// pick 2 distinct random indices from 0..items.length-1\nwhile (invalidIndexes.size < 2) {\n  invalidIndexes.add(int(0, items.length - 1));\n}\n\nfor (const idx of invalidIndexes) {\n  const rec = items[idx].json;\n\n  // randomly choose which field to blank on this record\n  if (bool(0.5)) {\n    rec.message = '';      // blank message\n  } else {\n    rec.order_id = '';     // blank order_id\n  }\n}\n\nreturn items;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        416,
+        192
+      ],
+      "id": "838ddb28-21b6-4637-8a19-e06ce3626c15",
+      "name": "Code Node"
+    },
+    {
+      "parameters": {
+        "content": "## Trigger\n- This section generates incident report data",
+        "height": 480,
+        "width": 672,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "17b2bc5d-c649-4df0-af79-3d20ffae1339",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "3f7fae9e-49e7-452a-aa77-9f6ce7cabab2",
+              "leftValue": "=",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "4d1c7aeb-a698-417a-8f57-49219c9d0a47",
+              "leftValue": "=",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        720,
+        848
+      ],
+      "id": "40dca847-2aa5-4fa0-bca0-f14d63ab53b5",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "fa8f9993-68a8-4b01-876b-c9d5c6175668",
+              "name": "invalid_input",
+              "value": "order Id and/or message is missing",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        512,
+        848
+      ],
+      "id": "424f2f30-7a2f-4d46-945e-ca2cb3f3d313",
+      "name": "Drop with Reason"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f3792006-d52d-4055-a0fa-27dbe68f821e",
+              "name": "incoming_message",
+              "value": "={{$json.message}}",
+              "type": "string"
+            },
+            {
+              "id": "a9b386a1-71a9-47be-adba-5c79cc1a3123",
+              "name": "email",
+              "value": "={{$json.email}}",
+              "type": "string"
+            },
+            {
+              "id": "c661db68-1f73-471b-87d8-7a5453599416",
+              "name": "order_id",
+              "value": "={{$json.order_id}}",
+              "type": "string"
+            },
+            {
+              "id": "f255dcc2-0a18-4551-8ad9-bf9683e2a276",
+              "name": "city",
+              "value": "={{$json.message}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        512,
+        688
+      ],
+      "id": "8dd57240-c270-43f9-93a4-c8049b8c3e60",
+      "name": "Data for LLM"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        720,
+        688
+      ],
+      "id": "5afbdb2b-c6eb-41af-ac55-e6d9dceb516d",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "content": "## Add the nodes in the right order here.\n\n",
+        "height": 480,
+        "width": 704
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        704,
+        0
+      ],
+      "id": "3571a678-c1ea-4a4b-a75a-7f4741e32604",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "## To add after the Code Node\nPlease add the nodes in the correct manner after the code node.\nThe key is to ensure we don't pass any empty \"message\" and \"order_id\" values.\nPlease add the right variables into the inputs in the \"IF\" node",
+        "height": 464,
+        "width": 688,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        336,
+        560
+      ],
+      "id": "6a59e622-1f8f-495b-adb9-fcd1ef6ebbbb",
+      "name": "Sticky Note2"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Code Node",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "01665916-0fd3-4c13-9224-ffdd0ed3df5a",
+  "meta": {
+    "instanceId": "9dbe6e9adaa7644a782c9475adca697617306074a3b354c01045885272a5c8fe"
+  },
+  "id": "dYxJqo73xy3k8T4H",
+  "tags": []
+}
