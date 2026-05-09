@@ -38,6 +38,7 @@ Examples and exercises of the courses taken
     - [x] [Curso de Kotlin básico](https://www.codigofacilito.com/cursos/kotlin-basico) - [🏋️‍♂️ Exercises performed](./CODIGOFACILITO/curso-kotlin-basico/)
     - [x] [Curso de Java Profesional v2](https://www.codigofacilito.com/cursos/java-profesional) - [🏋️‍♂️ Exercises performed](./CODIGOFACILITO/curso-java-profesional-2/)
     - [ ] [Bootcamp de Python Avanzado](https://codigofacilito.com/programas/python-avanzado-g2)
+    - [ ] [Bootcamp de Testing automatizado](https://codigofacilito.com/programas/testing-automatizado)
 - **DataCamp**
     - [x] [Introducción a Python](https://campus.datacamp.com/es/courses/intro-to-python-for-data-science) - [🏋️‍♂️ Exercises performed](./DATACAMP/intro-to-python-for-data-science/exercises)
     - [x] [Introducción a la estadística en Python](https://app.datacamp.com/learn/courses/introduction-to-statistics-in-python) - [🏋️‍♂️ Exercises performed](./DATACAMP/introduction-to-statistics-in-python/exercises)
