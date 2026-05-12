@@ -31,6 +31,7 @@ Examples and exercises of the courses taken
     - [x] [PyEssentials 1](https://www.netacad.com/es/courses/python-essentials-1) - [🏋️‍♂️ Exercises performed](./CISCO/PyEssentials1/)
 - **Código Facilito**
     - [x] [Curso de Apache AirFlow](https://codigofacilito.com/cursos/apache-airflow) - [🏋️‍♂️ Exercises performed](./CODIGOFACILITO/curso-apache-airflow/)
+    - [ ] [Curso profesional de JavaScript](https://codigofacilito.com/cursos/javascript-profesional) - [🏋️‍♂️ Exercises performed](./CODIGOFACILITO/curso-profesional-javascript/)
     - [ ] [Curso Profesional de NodeJs](https://codigofacilito.com/cursos/nodejs-profesional) - [🏋️‍♂️ Exercises performed](./CODIGOFACILITO/curso-profesional-nodejs/)
     - [x] [Curso de automatización de tareas con Python](https://codigofacilito.com/cursos/automatizacion-tareas-python) - [🏋️‍♂️ Exercises performed](./CODIGOFACILITO/automatizacion-tareas-python/)
     - [x] [Curso de Anotaciones y type hints con Python](https://codigofacilito.com/videos/buenas-practicas-typehints) - [🏋️‍♂️ Exercises performed](./CODIGOFACILITO/anotaciones-type_hints-python/)
